@@ -13,7 +13,7 @@ namespace SwinAdventure
 
             foreach (string s in idents)
             {
-                _identifiers.Add(s);
+                _identifiers.Add(s.ToLower());
             }
         }
 
@@ -21,7 +21,7 @@ namespace SwinAdventure
         {
             foreach (string s in _identifiers)
             {
-                if (id == s) return true;
+                if (id.ToLower() == s) return true;
             }
 
             return false;
