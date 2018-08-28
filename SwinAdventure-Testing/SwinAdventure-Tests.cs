@@ -15,6 +15,7 @@ namespace SwinAdventure.UnitTests
             identobj = new SwinAdventure.IdentifiableObject(new string[] { "yeet", "skrrt", "yote" });
         }
 
+        // IdentifiableObject unit tests
         [TestCase("yeet")]
         [TestCase("skrrt")]
         [TestCase("yote")]
