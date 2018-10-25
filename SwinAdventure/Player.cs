@@ -5,6 +5,7 @@ namespace SwinAdventure
     public class Player : GameObject, IHaveInventory
     {
         private Inventory _inventory;
+        private Location _currentLocation;
 
         public override string LongDescription
         {
@@ -22,24 +23,32 @@ namespace SwinAdventure
             }
         }
 
+        public Location CurrentLocation
+        {
+            get
+            {
+                return _currentLocation;
+            }
+        }
+
         public Player(string name, string desc) : base (new string[] { "me", "inventory" }, name, desc)
         {
             _inventory = new Inventory();
+            _currentLocation = null;
         }
 
         public GameObject Locate(string id)
         {
-            switch (id)
-            {
-                case "me":
-                    return this;
-                
-                case "inventory":
-                    return this;
+            if (AreYou(id)) return this;
+            else if (_inventory.HasItem(id)) return _inventory.Fetch(id);
+            else return _currentLocation.LocationInventory.Fetch(id);
+        }
 
-                default:
-                    return _inventory.Fetch(id);
-            }
+        public void EnterLocation(Location newLoc)
+        {
+            _currentLocation.Exit();
+            newLoc.Enter(this);
+            _currentLocation = newLoc;
         }
     }
 }
