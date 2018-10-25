@@ -39,14 +39,27 @@ namespace SwinAdventure
 
         public GameObject Locate(string id)
         {
-            if (AreYou(id)) return this;
-            else if (_inventory.HasItem(id)) return _inventory.Fetch(id);
-            else return _currentLocation.LocationInventory.Fetch(id);
+            GameObject output = null;
+            switch (id)
+            {
+                case "me":
+                case "inventory":
+                    output = this;
+                    break;
+                
+                default:
+                    output = _inventory.Fetch(id);
+                    break;
+            }
+
+            if (output == null && _currentLocation != null) output = _currentLocation.LocationInventory.Fetch(id);
+
+            return output;
         }
 
         public void EnterLocation(Location newLoc)
         {
-            _currentLocation.Exit();
+            if (_currentLocation != null) _currentLocation.Exit();
             newLoc.Enter(this);
             _currentLocation = newLoc;
         }
