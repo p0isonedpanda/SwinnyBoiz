@@ -50,5 +50,31 @@ namespace SwinAdventure.UnitTests
 
             Assert.AreEqual(p.Locate("item").Name, "item");
         }
+
+        [TestCase(new string[] { "house" }, "House", "It's a house")]
+        [TestCase(new string[] { "cave" }, "Cave", "It's a cave")]
+        [TestCase(new string[] { "atc101" }, "atc101", "S W I N B U R N E")]
+        public void LocateNotInLocation(string[] ids, string name, string desc)
+        {
+            Location loc = new Location(ids, name, desc);
+            loc.LocationInventory.Put(new Item(new string[] { "item" }, "item", "and item"));
+
+            p.EnterLocation(loc);
+
+            Assert.AreNotEqual(p.Locate("item").Name, "spaghetti");
+        }
+
+        [TestCase(new string[] { "house" }, "House", "It's a house")]
+        [TestCase(new string[] { "cave" }, "Cave", "It's a cave")]
+        [TestCase(new string[] { "atc101" }, "atc101", "S W I N B U R N E")]
+        public void LocateInPlayer(string[] ids, string name, string desc)
+        {
+            Location loc = new Location(ids, name, desc);
+            p.PlayerInventory.Put(new Item(new string[] { "item" }, "item", "and item"));
+
+            p.EnterLocation(loc);
+
+            Assert.AreEqual(p.Locate("item").Name, "item");
+        }
     }
 }
